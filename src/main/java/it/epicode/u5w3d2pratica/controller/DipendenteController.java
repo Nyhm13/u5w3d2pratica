@@ -55,7 +55,7 @@ public class DipendenteController {
     public String aggiornamentoAvatarDipendente(@PathVariable int id, @RequestBody MultipartFile file) throws NotFoundException, IOException {
         return dipendenteService.patchDipendente(id, file);
     }
-
+//    @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{id}")
     public void deletaDipendente(@PathVariable int id) throws NotFoundException {
         dipendenteService.deleteDipendente(id);
