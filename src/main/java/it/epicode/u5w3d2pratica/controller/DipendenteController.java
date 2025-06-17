@@ -6,6 +6,7 @@ import it.epicode.u5w3d2pratica.exception.ValidationException;
 import it.epicode.u5w3d2pratica.model.Dipendente;
 import it.epicode.u5w3d2pratica.service.DipendenteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class DipendenteController {
 
     //creo dipendente
     @PostMapping("")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Dipendente creaDipendente(@RequestBody  @Validated DipendenteDto dipendenteDto, BindingResult bindingResult) throws ValidationException {
         if (bindingResult.hasErrors()){
             throw  new ValidationException(bindingResult.getAllErrors().stream().map(objectError -> objectError.getDefaultMessage()).reduce("",(e,s)->e+s));
@@ -36,6 +38,7 @@ public class DipendenteController {
     }
 
     @GetMapping("")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     public List<Dipendente> getAllDipendenti(){
         return dipendenteService.getAllDipendenti();
     }
